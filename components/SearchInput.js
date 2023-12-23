@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     StyleSheet,
     TextInput,
@@ -7,15 +7,32 @@ import {
 
 
 const SearchInput = (props) => {
+    const [text, setText] = useState('');
+    const { placeholder } = props;
+
+    const handleChangeText = (text) => {
+        setText(text);
+    }
+
+    const handleSubmitEditing = () => {
+        const {onSubmit} = props;
+        if(!text) return;
+        onSubmit(text);
+        setText('');
+    }
+
     return (
         <View style={styles.container}>
             <TextInput 
                 autoCorrect={false}
-				placeholder={props.placeholder}
+                value={text}
+				placeholder={placeholder}
 				placeholderTextColor="white"
                 underlineColorAndroid='transparent'
 				style={styles.textInput}
 				clearButtonMode='always'
+                onChangeText={handleChangeText}
+                onSubmitEditing={handleSubmitEditing}
             />
         </View>
     )
